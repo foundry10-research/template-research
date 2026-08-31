@@ -1,0 +1,95 @@
+---
+title: "[PROJECT TITLE]: Analysis Summary"
+author: "[YOUR NAME]"
+date: today
+format:
+  gfm:
+    toc: true
+    fig-width: 7
+    fig-height: 4
+execute:
+  echo: false      # hide code; note this does NOT hide output
+  warning: false
+  message: false
+---
+
+```{r setup}
+source(here::here("code", "00_setup.R"))
+dat <- readRDS(file.path(path_processed, "analysis_sample.rds"))
+```
+
+<!--
+BEFORE YOU COMMIT THIS REPORT, check reports/README.md.
+
+The short version: this file is tracked by Git, so whatever your chunks print
+ends up in the repository permanently. A `head(dat)` left in from debugging
+puts participant rows into a document that looks like a summary.
+
+`echo: false` above hides your CODE. It does not hide your OUTPUT.
+-->
+
+## Summary
+
+Two or three sentences a busy PI could read and understand. Lead with what you
+found, not with what you did.
+
+## Sample
+
+```{r sample}
+#| label: tbl-sample
+#| tbl-cap: "Analytic sample"
+
+# Report aggregate counts only -- never one row per participant.
+# dat |>
+#   summarize(
+#     n         = n(),
+#     mean_age  = round(mean(age, na.rm = TRUE), 1),
+#     pct_female = round(100 * mean(gender == "Female", na.rm = TRUE), 1)
+#   ) |>
+#   knitr::kable()
+```
+
+[n] participants, after excluding [n] for [reason]. Exclusion criteria and
+their justification are logged in
+[`../docs/decisions.md`](../docs/decisions.md).
+
+## Main findings
+
+```{r primary}
+#| label: fig-primary
+#| fig-cap: "[Descriptive caption]"
+
+# ggplot(dat, aes(x = condition, y = outcome)) +
+#   stat_summary(fun = mean, geom = "col") +
+#   stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2) +
+#   labs(x = "Condition", y = "Outcome") +
+#   theme_minimal()
+```
+
+Describe what the figure shows in words. A reader should get the finding from
+the prose even if they skip the figure.
+
+## Model results
+
+```{r model}
+#| label: tbl-model
+#| tbl-cap: "Regression results"
+
+# model <- lm(outcome ~ condition + age, data = dat)
+# broom::tidy(model, conf.int = TRUE) |>
+#   mutate(across(where(is.numeric), \(x) round(x, 3))) |>
+#   knitr::kable()
+```
+
+Report the estimate, its uncertainty, and what it means substantively. A
+coefficient without an interpretation is not a finding.
+
+## Caveats
+
+What this analysis cannot tell you. Write this section honestly and early —
+it is the part a partner organization most needs and least often gets.
+
+---
+
+*Generated from `reports/summary.qmd`. Analysis code in `code/`. Rendered
+`r format(Sys.Date(), "%Y-%m-%d")`.*

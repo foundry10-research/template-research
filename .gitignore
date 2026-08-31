@@ -1,0 +1,224 @@
+# =============================================================================
+# .gitignore  --  files Git should never track
+#
+# Anything matching a line below is invisible to Git. It stays on your own
+# computer but is never committed, never pushed, and never visible to anyone
+# else on GitHub.
+#
+# Lines starting with ! are EXCEPTIONS -- "ignore everything except this."
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# DATA  --  the most important rule in this file
+# -----------------------------------------------------------------------------
+# Research data does not belong on GitHub. Data lives on Google Drive while a
+# study is active and on Forge once it is archived. See data/README.md.
+#
+# Two reasons this matters more than it might seem:
+#   1. Once a file is committed, it is in the repository's history FOREVER.
+#      Deleting it later does not remove it. If the repository is ever made
+#      public, everything ever committed becomes public with it.
+#   2. GitHub rejects files over 100 MB and complains about anything over 50 MB.
+#
+# The rules below ignore everything inside data/ while still keeping the folder
+# structure and the README files, so the folders exist when someone clones.
+
+data/**
+!data/**/
+!data/README.md
+!data/**/README.md
+!data/**/.gitkeep
+
+# Data files anywhere else in the project, in case one wanders out of data/
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.sav
+*.dta
+*.por
+*.rds
+*.RDS
+*.RData
+*.rda
+*.feather
+*.parquet
+*.sas7bdat
+
+# If you have a small, FULLY DE-IDENTIFIED file that genuinely should be
+# tracked -- an analytic dataset under a few MB that makes your results
+# reproducible -- you can override these rules for that one file:
+#
+#     git add -f data/processed/analysis_sample.csv
+#
+# Do this deliberately, never in bulk, and only after confirming the file
+# contains nothing that could identify a participant. See
+# docs/before-going-public.md.
+
+
+# -----------------------------------------------------------------------------
+# SECRETS  --  API keys, tokens, passwords, connection strings
+# -----------------------------------------------------------------------------
+# Same permanence problem as data: a committed key is a leaked key, even if you
+# delete it in the next commit. Keep credentials in .Renviron or .env, which are
+# ignored here, and never paste them into a script.
+
+.Renviron
+.env
+.env.*
+*.pem
+*.key
+credentials.*
+secrets.*
+service-account*.json
+token.json
+.httr-oauth
+
+
+# -----------------------------------------------------------------------------
+# R
+# -----------------------------------------------------------------------------
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj.user
+.Rprofile.user
+
+# renv: the library folder is huge and machine-specific. renv.lock IS tracked
+# (it records which package versions you used) but the packages themselves
+# are not.
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/staging/
+
+# Knitr / Quarto / R Markdown build products
+*_cache/
+/cache/
+*_files/
+/*_files/
+.quarto/
+_site/
+_book/
+*.utf8.md
+*.knit.md
+
+
+# -----------------------------------------------------------------------------
+# Python  (harmless to keep even in an R project)
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.pytest_cache/
+*.egg-info/
+
+
+# -----------------------------------------------------------------------------
+# Stata  (harmless to keep even in an R project)
+# -----------------------------------------------------------------------------
+*.smcl
+*.stpr
+
+
+# -----------------------------------------------------------------------------
+# LaTeX build products
+# -----------------------------------------------------------------------------
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*.toc
+
+
+# -----------------------------------------------------------------------------
+# Operating system clutter
+# -----------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Office lock files -- created while a Word or Excel file is open
+~$*
+.~lock.*
+
+
+# -----------------------------------------------------------------------------
+# Miscellaneous
+# -----------------------------------------------------------------------------
+*.log
+*.tmp
+*.bak
+*.swp
+
+
+# -----------------------------------------------------------------------------
+# OUTPUT  --  folders are kept, contents are not
+# -----------------------------------------------------------------------------
+# Generated figures, tables, and model objects stay on your machine. The
+# folders themselves are kept so scripts have somewhere to write.
+#
+# The reason is not obvious and is worth stating: a fitted model object is not
+# a summary of your data, it CONTAINS your data. An lm() object carries a
+# $model component holding the complete model frame -- every row that went into
+# the fit. Saving one to output/ and committing it would put participant-level
+# data into the repository's permanent history, in a file that looks like a
+# result rather than a dataset.
+#
+# Rather than trying to sort the safe outputs from the unsafe ones, nothing in
+# output/ is tracked. Everything here is regenerable by running
+# code/run_all.R, so nothing is lost.
+
+output/**
+!output/**/
+!output/README.md
+!output/**/README.md
+!output/**/.gitkeep
+
+# -----------------------------------------------------------------------------
+# REPORTS  --  tracked, because they are written to be read
+# -----------------------------------------------------------------------------
+# reports/ holds rendered summaries meant for collaborators and PIs who do not
+# run R. Unlike output/, these ARE tracked -- the whole point is that someone
+# can read them on github.com without installing anything.
+#
+# Quarto writes a report's figures into a folder like reports/summary_files/,
+# which the *_files/ rule above would otherwise ignore, leaving broken images.
+# These lines let a report's own figures through.
+
+!reports/**/*_files/
+!reports/**/*_files/**
+
+# The data rules still apply inside reports/: a stray .csv or .rds in this
+# folder stays ignored. Only the report and its figures are tracked.
+
+
+# If you need to share a specific figure or an aggregated table -- for a
+# collaborator who does not run R, or for a journal's supplementary materials
+# -- you can override this for that one file:
+#
+#     git add -f output/figures/fig1_outcome_by_condition.png
+#
+# Before you do, confirm the file shows aggregated results only. A figure
+# plotting every individual case in a small sample can identify participants
+# even though it contains no names.

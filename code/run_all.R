@@ -1,0 +1,24 @@
+# =============================================================================
+# run_all.R
+#
+# Reproduces the entire project from raw data to final output.
+#
+# Someone who has this repository and access to the data should be able to open
+# the .Rproj file, run this one script, and get every result. If that is not
+# true, the project is not reproducible -- and the fix belongs in the scripts,
+# not in a set of instructions someone has to follow by hand.
+#
+# Run it periodically, not just at the end. The longer you wait to find out
+# that step 3 depends on something you deleted, the more painful it is.
+# =============================================================================
+
+source(here::here("code", "00_setup.R"))
+
+source(here("code", "01_clean.R"))
+source(here("code", "02_analyze.R"))
+
+# Optional: re-render the summary report so it never shows stale numbers.
+# Requires the quarto R package and a Quarto installation.
+# quarto::quarto_render(here("reports", "summary.qmd"))
+
+message("\n--- Pipeline complete: ", format(Sys.time(), "%Y-%m-%d %H:%M"), " ---")

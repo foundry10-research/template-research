@@ -1,0 +1,44 @@
+# =============================================================================
+# .gitattributes  --  how Git should treat particular file types
+#
+# You will probably never need to edit this file. It exists to prevent two
+# confusing problems on teams where some people use Mac and some use Windows.
+# =============================================================================
+
+# Normalize line endings.
+#
+# Windows and Mac/Linux mark the end of a line differently. Without this line,
+# a Windows user and a Mac user editing the same script can produce a diff that
+# claims EVERY line changed, when nothing actually changed. This tells Git to
+# store one consistent style and translate on each machine.
+* text=auto
+
+# Explicitly text -- always diff these as code
+*.R          text
+*.Rmd        text
+*.qmd        text
+*.py         text
+*.do         text
+*.md         text
+*.txt        text
+*.csv        text
+*.yml        text
+*.yaml       text
+
+# Explicitly binary -- never try to diff or merge these. Git would otherwise
+# attempt a line-by-line merge on a Stata or SPSS file and corrupt it.
+*.dta        binary
+*.sav        binary
+*.rds        binary
+*.RData      binary
+*.xlsx       binary
+*.xls        binary
+*.docx       binary
+*.pdf        binary
+*.png        binary
+*.jpg        binary
+*.jpeg       binary
+*.gif        binary
+*.tif        binary
+*.tiff       binary
+*.svg        text
