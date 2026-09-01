@@ -86,8 +86,6 @@ publish code with a paper, reviewers will see it. `sweston-f10` is good;
 
 Ask the research admin (currently Amy Ly) to add you. Being in the organization is what lets you see and create foundry10 repositories.
 
-One naming quirk worth knowing before it confuses you: the company is **foundry10**, but the GitHub organization is **`foundry10-research`**. When a form asks for an owner or you are typing a URL, it is always `foundry10-research`. When we talk about the organization in prose, we mean the company.
-
 ### Turn on two-factor authentication
 
 GitHub requires it for organization members. Settings → Password and authentication → Two-factor authentication. Use an authenticator app rather than SMS if you have the choice.
