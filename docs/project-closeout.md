@@ -62,7 +62,7 @@ The second item is the one that matters. Everything else on this page is houseke
 Repositories outlive the people who create them. Before the project lead moves
 on:
 
-- [ ] Repository is owned by the **foundry10 organization**, not a personal account
+- [ ] Repository is owned by the **`foundry10-research` GitHub organization**, not a personal account
 - [ ] The research admin (currently Amy Ly) has admin access
 - [ ] The director of the research pillar (currently Dominic Gibson) has admin access
 - [ ] Departing team members have been removed as collaborators

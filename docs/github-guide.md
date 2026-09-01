@@ -82,9 +82,11 @@ Pick a professional username — it appears on everything you do, and if you
 publish code with a paper, reviewers will see it. `sweston-f10` is good;
 `dogmom1990` is a decision you will revisit.
 
-### Get added to the foundry10 organization
+### Get added to the GitHub organization
 
 Ask the research admin (currently Amy Ly) to add you. Being in the organization is what lets you see and create foundry10 repositories.
+
+One naming quirk worth knowing before it confuses you: the company is **foundry10**, but the GitHub organization is **`foundry10-research`**. When a form asks for an owner or you are typing a URL, it is always `foundry10-research`. When we talk about the organization in prose, we mean the company.
 
 ### Turn on two-factor authentication
 
@@ -111,7 +113,7 @@ You are not going to build a project structure from scratch. Start from the foun
 1. Go to <https://github.com/foundry10-research/template-research>
 2. Click the green **Use this template** button → **Create a new repository**
 3. Fill in:
-   - **Owner:** `foundry10` (not your personal account — this makes it an organization project, so it survives anyone leaving)
+   - **Owner:** `foundry10-research` (not your personal account — this makes it an organization project, so it survives anyone leaving)
    - **Repository name:** lowercase, hyphens, descriptive, permanent. `teen-media-use-2026`, not `study1` or `Saras Project`
    - **Description:** one line a colleague would understand
    - **Visibility: Private.** Always. See the next section.

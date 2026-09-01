@@ -173,7 +173,7 @@ Yes, and they look identical, which catches nearly everyone.
 
 - **Repository Settings** — `github.com/foundry10-research/<repo>` → Settings. Controls
   that one repository: collaborators, branch rules, the template checkbox.
-- **Organization Settings** — `github.com/foundry10` → Settings. Controls the
+- **Organization Settings** — `github.com/foundry10-research` → Settings. Controls the
   whole org: member privileges, base permissions, who can create repositories.
   **Only organization owners can see this page.**
 
