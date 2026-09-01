@@ -1,12 +1,18 @@
 # [PROJECT TITLE]
 
-> **New to this repository?** Replace everything in this file with your own
-> project's details — this is a skeleton, not documentation to keep.
-> Start with [`SETUP.md`](SETUP.md).
+> ### 📋 This is the foundry10 research project template
 >
-> **New to GitHub?** Read [`docs/github-guide.md`](docs/github-guide.md). It
-> assumes no prior experience and stays in the repository permanently, so it
-> is there for whoever joins the project next.
+> **To start a new project:** click the green **Use this template** button near
+> the top of this page → **Create a new repository**. Then work through
+> [`SETUP.md`](SETUP.md).
+>
+> **New to GitHub?** Read [`docs/github-guide.md`](docs/github-guide.md) first.
+> It assumes no prior experience, and it stays in your repository permanently
+> so it is there for whoever joins the project next.
+>
+> **Once your repository is created:** delete this box and replace everything
+> below it with your own project's details. It is a skeleton, not documentation
+> to keep.
 
 One or two sentences describing what this study is about.
 
@@ -61,7 +67,7 @@ Expected run time: [X minutes]
 ├── output/          Generated figures and tables — NOT tracked by Git
 ├── reports/         Rendered summaries for people who don't run R — tracked
 ├── materials/       Instruments, protocols, consent forms
-├── docs/            Codebook, decisions log, guides
+├── docs/            FAQ, codebook, decisions log, guides
 ├── manuscript/      Links to drafts; final PDFs
 ├── CONVENTIONS.md   How we name things and write code
 └── SETUP.md         What to do when you first create this repository

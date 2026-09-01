@@ -20,6 +20,8 @@ If you have never used GitHub before, work through [`docs/github-guide.md`](docs
 
 - [ ] Renamed `template.Rproj` to `[your-project-name].Rproj`
 - [ ] Filled in the study information table in [`README.md`](README.md)
+- [ ] Deleted the grey "This is the foundry10 research project template" box
+      at the top of `README.md`
 - [ ] Replaced the project description at the top of `README.md`
 - [ ] Filled in the Google Drive link and access contact in [`data/README.md`](data/README.md)
 - [ ] Updated the author and date headers in `code/00_setup.R`

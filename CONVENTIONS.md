@@ -28,6 +28,12 @@ The equivalents elsewhere: `pyprojroot` or `pathlib` with a project-root constan
 
 This is especially important if more than one researcher is running code -- it will ensure that code does not break across machines and that no one has to manually change code to make it work for them.
 
+Worth knowing *why* `here()` rather than a plain `"data/raw/survey.csv"`: in R
+a relative path resolves against the working directory, not against the folder
+the script lives in. It works when you open the `.Rproj` and breaks when
+someone opens the script directly, or when anything in `reports/` is rendered.
+See [`docs/faq.md`](docs/faq.md).
+
 ---
 
 ## 2. Number your scripts, and give each one job
@@ -159,7 +165,11 @@ Options, in order of preference:
 
 Package versions change, and results occasionally change with them. `02_analyze.R` writes `sessionInfo()` to `docs/session-info.txt`, so that a discrepancy two years from now has a starting point.
 
-If you want stronger guarantees, `renv` snapshots exact package versions and `renv::restore()` rebuilds them. It is worth it for a project that will be revisited or externally audited, but it's overhead you can skip for a quick descriptive analysis. Your call.
+If you want stronger guarantees there is a ladder: a dated CRAN snapshot (one
+line), then `renv` for exact versions, then `rig` if the R version itself
+matters. Worth it for work that will be revisited or externally audited;
+skippable for a quick descriptive analysis. See
+[`docs/environments.md`](docs/environments.md).
 
 ---
 

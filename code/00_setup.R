@@ -18,23 +18,19 @@ library(here) # builds file paths from the project root -- see below
 library(tidyverse) # dplyr, ggplot2, readr, and friends
 
 
-# --- Why there is no setwd() in this file ------------------------------------
+# --- Why paths use here() and not "data/raw/survey.csv" ----------------------
 #
-# A line like
+# In R, a relative path is relative to the WORKING DIRECTORY, not to the folder
+# this script lives in -- a running script has no way to find out where it
+# lives. So a plain relative path works when you open the .Rproj, and breaks
+# when you do not: double-clicking a script in Finder, or rendering anything in
+# reports/ (Quarto sets the working directory to the document's own folder).
 #
-#     setwd("/Users/yourname/Documents/GitHub/my-study")
+# here() finds the project root by locating the .Rproj file and builds paths
+# from there, so they resolve identically however the session was started.
+# There should be no setwd() and no absolute paths anywhere in code/.
 #
-# works on exactly one computer: yours. The moment a collaborator clones this
-# repository, or you get a new laptop, every script breaks.
-#
-# The here package solves this. here() figures out where the project root is
-# (it looks for the .Rproj file) and builds paths from there:
-#
-#     here("data", "raw", "survey.csv")
-#
-# That works on every machine, for every collaborator, forever. Use it for
-# every single file path in this project. There should be no absolute paths
-# anywhere in code/.
+# Longer explanation: docs/faq.md
 
 # --- File paths --------------------------------------------------------------
 # Defining these once means you change a location in one place, not thirty.

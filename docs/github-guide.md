@@ -108,7 +108,7 @@ You are not going to build a project structure from scratch. Start from the foun
 
 ### Use the template
 
-1. Go to the template repository on github.com
+1. Go to <https://github.com/foundry10-research/template-research>
 2. Click the green **Use this template** button → **Create a new repository**
 3. Fill in:
    - **Owner:** `foundry10` (not your personal account — this makes it an organization project, so it survives anyone leaving)
@@ -478,6 +478,12 @@ Usually line endings — the invisible characters marking the end of each line,
 which differ between Windows and Mac. The template's `.gitattributes` handles
 this. If it happens anyway, mention it rather than committing thousands of
 phantom changes.
+
+### R says "cannot open the connection"
+
+Not a Git problem — R cannot find a file, and it usually means the working
+directory is not what you expect. Did you open the `.Rproj`, or just the
+script? See [`faq.md`](faq.md).
 
 ### Something is wrong and none of this covers it
 

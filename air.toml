@@ -1,0 +1,10 @@
+# Configuration for Air, the R formatter (https://posit-dev.github.io/air)
+#
+# Positron formats R files with Air on save when the extension is enabled.
+# Committing this file means everyone on the project gets identical output,
+# so formatting never shows up as noise in someone else's diff.
+
+[format]
+line-width = 80
+indent-width = 2
+indent-style = "space"

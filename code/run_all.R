@@ -21,4 +21,8 @@ source(here("code", "02_analyze.R"))
 # Requires the quarto R package and a Quarto installation.
 # quarto::quarto_render(here("reports", "summary.qmd"))
 
-message("\n--- Pipeline complete: ", format(Sys.time(), "%Y-%m-%d %H:%M"), " ---")
+message(
+  "\n--- Pipeline complete: ",
+  format(Sys.time(), "%Y-%m-%d %H:%M"),
+  " ---"
+)
