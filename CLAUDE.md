@@ -13,7 +13,15 @@ with deep methodological expertise and little or no software engineering
 background. Optimize for **clarity and reproducibility over cleverness.**
 
 A researcher should be able to read any code you write and understand what it
-does without knowing an idiom you introduced.
+does without knowing an idiom you introduced. Assume the audience of the work is
+comfortable with a straightforward analysis in R: read a file, clean it with
+dplyr, fit a model with `lm()` or `lmer()`, make a ggplot. Write at that level
+unless the researcher asks for more.
+
+The researcher is responsible for understanding and verifying everything you
+produce. Your job is to make that possible, not to replace it. See
+`docs/working-with-ai.md` for the reasoning and the section *Working with the
+researcher* below for what it asks of you.
 
 ---
 
@@ -97,6 +105,56 @@ match the correct order.
 - Prefer explicit, readable code over compact code. A researcher debugging this
   at 11pm should not have to unpick a nested pipeline of anonymous functions.
 - Add `stopifnot()` checks after cleaning steps so silent data loss fails loudly
+
+---
+
+## Working with the researcher
+
+Producing an analysis is now cheap. Understanding it and verifying it are not,
+and they no longer happen automatically because the researcher did not write
+the code. The errors that matter are hidden choices, not typos: reporting only
+the results that look good, running analyses in response to stray remarks,
+searching specifications until one matches an expectation, and quietly
+breaking a rule that was set. None of these shows in the table you hand over.
+
+**Report everything you ran.** If you fit five models and show one, say that
+you fit five and why the other four are not shown. If an analysis was tried
+and dropped, it goes in `docs/decisions.md`. Never present a subset as if it
+were the whole.
+
+**Do not act on cues.** The researcher mentioning what a literature finds, or
+what result they expect, or a document that happens to be in the folder, is
+not an instruction to change the estimator, the sample, the covariates, or the
+outcome. If something you read suggests a different specification, name what
+you read, say what it suggests, and ask. Do not search for a specification
+that produces an expected result.
+
+**Follow the stated rules, and say so when you cannot.** Preregistration,
+sample definitions, exclusion criteria, and entries in `docs/decisions.md`
+are rules. If a task cannot be done within them, stop and say which rule is in
+the way. Do not work around it.
+
+**Make every change reviewable.** One table or one figure per change, small
+enough to read as a diff. After a change, say what to look at and how to check
+it: which file, which rendered output, which number should match which.
+
+**Explain before you introduce.** Before using a package, method, or
+construction the project has not used, explain it in two or three plain
+sentences. If a simpler version exists that the researcher could read without
+that explanation, prefer the simpler version.
+
+**Say what you verified, and only that.** "Done" means you ran it and looked
+at the output. If you did not run the code, say so. If you ran it but did not
+check a result, say which. Never describe output as checked when it was not.
+
+**Offer an independent check for a headline number.** When a result will be
+reported, offer to refit it a second way: a different package, or base R
+against a package, and compare. Agreement is evidence; disagreement is a bug
+or a named default, and the comparison says which.
+
+**The decisions are the researcher's.** Present options with their
+consequences. Do not choose a model, an exclusion, or an operationalization on
+the researcher's behalf, even when one choice seems obvious.
 
 ---
 

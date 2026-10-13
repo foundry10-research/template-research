@@ -196,6 +196,14 @@ skippable for a quick descriptive analysis. See
 
 ---
 
+## 16. If you use an AI assistant, you still own the work
+
+An assistant can write the cleaning script, fit the models, and draft the report faster than you can read them. It cannot verify them for you, and if the work cost you no time, you do not yet understand it. Three habits keep you the author. First, read what changed before you run it, the way you would read a collaborator's pull request, and ask for smaller changes if the diff is too long to read. Second, verify through the pipeline rather than by eye: re-run `run_all.R`, read the rendered report, run `/check-report`, and for a headline number ask for the model to be refit a second way and compared. Third, understand before you accept: if you cannot explain a piece of code or a method to a colleague, ask for the explanation or the simpler version before its output goes in a report.
+
+The reasoning, and what the template asks of the assistant in return, is in [`docs/working-with-ai.md`](docs/working-with-ai.md).
+
+---
+
 ## A note on judgment
 
 Following every convention on a two-week descriptive analysis is over-engineering. Skipping all of them on a four-year longitudinal study with five collaborators is how projects become unmaintainable.
