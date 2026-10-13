@@ -1,7 +1,7 @@
 # =============================================================================
 # run_all.R
 #
-# Reproduces the entire project from raw data to final output.
+# Reproduces the entire project from raw data to the rendered full report.
 #
 # Someone who has this repository and access to the data should be able to open
 # the .Rproj file, run this one script, and get every result. If that is not
@@ -17,9 +17,10 @@ source(here::here("code", "00_setup.R"))
 source(here("code", "01_clean.R"))
 source(here("code", "02_analyze.R"))
 
-# Optional: re-render the summary report so it never shows stale numbers.
-# Requires the quarto R package and a Quarto installation.
-# quarto::quarto_render(here("reports", "summary.qmd"))
+# Render the full report so it never shows numbers from a previous run. The
+# report is the record of the study; a stale one is worse than none, because
+# people will quote it. Requires Quarto (bundled with recent RStudio).
+quarto::quarto_render(here("reports", "full_report.qmd"))
 
 message(
   "\n--- Pipeline complete: ",

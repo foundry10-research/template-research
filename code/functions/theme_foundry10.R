@@ -9,8 +9,8 @@
 
 # --- Colours -----------------------------------------------------------------
 #
-# The same colour is set for LaTeX headings in reports/zero_order_report.qmd.
-# Change both together.
+# If a report sets heading colours in its YAML, use the same hex codes as here
+# so figures and headings match.
 
 f10_orange <- "#D14E1D"
 f10_cyan <- "#01646F"
@@ -101,8 +101,8 @@ theme_foundry10 <- function(base_size = 10, base_family = f10_font) {
 
 # --- Discrete scales ---------------------------------------------------------
 # Minimise the number of colours: these exist for the cases where a chart
-# genuinely needs to key on colour, not for the dot-whisker figures, where the
-# subgroup level is already encoded by position.
+# genuinely needs to key on colour. If the category is already encoded by
+# position on an axis, do not also encode it with colour.
 
 scale_colour_foundry10 <- function(...) {
   ggplot2::discrete_scale(

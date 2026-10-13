@@ -95,7 +95,40 @@ match the correct order.
 
 ---
 
-## Style
+## Style: packages first, simplest thing that works
+
+**Use an existing, well-tested package before writing anything yourself.**
+Writing a project-specific function is the exception, not the default. Before
+writing one, ask: does base R, the tidyverse, or one of the packages below
+already do this? If so, use it, even if the call is slightly longer than a
+wrapper would be. A wrapper hides what is happening from the researcher and is
+one more place for a bug to live.
+
+The default toolkit. Reach for these before anything else:
+
+| Task | Use |
+|---|---|
+| Reading, cleaning, reshaping | `readr`, `dplyr`, `tidyr`, `janitor::clean_names()` |
+| Descriptives | `dplyr::summarize()`, `psych::describe()` |
+| Scale scores, reliability | `psych::alpha()`, `rowMeans()` |
+| Models | `lm()`, `glm()`, `lme4::lmer()`, `lavaan` |
+| Tidy model output | `broom::tidy(conf.int = TRUE)`, `broom.mixed::tidy()` |
+| Tables for reports | `knitr::kable()`, `gtsummary`, `modelsummary` |
+| Figures | `ggplot2` with `theme_foundry10()` |
+| Paths | `here::here()` |
+
+Write a custom function only when **both** are true: no package does the job,
+and the same block would otherwise appear three or more times. Then propose it
+to the researcher first, put it in `code/functions/` as its own file, and keep
+it short and plain. Never write a function that reimplements something that
+exists, such as a z-score function when `scale()` exists.
+
+**Stay on the bottom rung of the complexity ladder unless asked to climb.**
+Default to `lm()`, dplyr verbs, and ggplot2. Do not introduce `purrr::map()`,
+nested functions, tidy evaluation (`{{ }}`, `!!`), S3 classes, environments,
+or custom operators unless the researcher asks for them or the task is
+impossible without them. Two copies of a block are fine; repetition a
+researcher can read beats abstraction they cannot.
 
 - Base R and tidyverse are both fine; match whatever the file already uses
 - `snake_case` throughout

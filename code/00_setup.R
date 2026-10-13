@@ -37,8 +37,9 @@ library(tidyverse) # dplyr, ggplot2, readr, and friends
 
 path_raw <- here("data", "raw")
 path_processed <- here("data", "processed")
-path_figures <- here("output", "figures")
-path_tables <- here("output", "tables")
+path_results <- here("results") # aggregate tables the report reads; tracked
+path_figures <- here("output", "figures") # high-res copies for products; not tracked
+path_tables <- here("output", "tables") # scratch tables; not tracked
 
 
 # --- Reproducibility ---------------------------------------------------------
@@ -67,8 +68,14 @@ options(
 #     mutate(across(where(is.numeric), \(x) round(x, 2)))
 
 # --- Project functions -------------------------------------------------------
-# Anything you write yourself and use more than once goes in code/functions/
-# as its own file. This loads all of them.
+# Most projects need no functions of their own: base R, the tidyverse, broom,
+# and psych cover nearly everything, and a function from a package is easier
+# for the next reader than one you wrote. The template ships one file here,
+# theme_foundry10.R, which gives figures the foundry10 look.
+#
+# If you do write a function, give it its own file in code/functions/ and it
+# will be loaded here automatically. See CONVENTIONS.md, section 4, for when
+# that is worth doing.
 
 function_files <- list.files(
   here("code", "functions"),
