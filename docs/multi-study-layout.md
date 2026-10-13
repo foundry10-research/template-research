@@ -65,7 +65,7 @@ project-name/
 │
 ├── materials/                 Instruments, organized by study
 ├── docs/                      Project-level docs
-└── manuscript/                Organized by study or by paper
+└── products/                  Links to manuscripts, white papers, briefs; by study or by paper
 ```
 
 ---

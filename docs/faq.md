@@ -43,7 +43,7 @@ It works when you open the `.Rproj`, so most of the time, it won't be a problem 
 
 2. **Anything in `reports/` is rendered.** Quarto and R Markdown set the working directory to the *document's* folder — even when you render from the project root. `"data/raw/survey.csv"` then looks for `reports/data/raw/survey.csv` and does not find it.
 
-The template summary file, `reports/summary.qmd`, sources `code/00_setup.R`, which defines `path_raw` and friends. Those paths are used by the scripts (working directory = project root) *and* by the report (working directory = `reports/`). Without `here()`, there is no single correct value — you would need code that detects how it was invoked, which is worse than a small dependency.
+The template full report, `reports/full_report.qmd`, sources `code/00_setup.R`, which defines `path_raw` and friends. Those paths are used by the scripts (working directory = project root) *and* by the report (working directory = `reports/`). Without `here()`, there is no single correct value — you would need code that detects how it was invoked, which is worse than a small dependency.
 
 **Is `here` strictly necessary?** No. If you always open the `.Rproj`, never call `setwd()`, and have no `.qmd` files, plain relative paths work fine. But the premium is one small package (`here` depends only on `rprojroot`; both are pure R, install in seconds, and never need compiling). What it buys is that the project works when someone does the obvious wrong thing.
 
@@ -97,7 +97,7 @@ That choice is a responsibility, though. A rendered report contains whatever you
 
 Since `output/` is not tracked, figures do not appear on GitHub.
 
-**The intended route is `reports/`.** Write up the finding in `reports/summary.qmd`, render it to `gfm`, and commit — your collaborator can then read it directly on github.com with the figure embedded and a sentence explaining what it shows.
+**The intended route is `reports/`.** Draw the figure in a chunk of `reports/full_report.qmd`, render it to `gfm`, and commit — your collaborator can then read it directly on github.com with the figure embedded and a sentence explaining what it shows. (Importing a saved image from `output/figures/` does not work for this: the rendered file links to a path Git does not track, so the image is broken on GitHub.)
 
 For a one-off, use Slack or email. Not everything needs to be in version control.
 

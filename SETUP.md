@@ -27,8 +27,9 @@ If you have never used GitHub before, work through [`docs/github-guide.md`](docs
 - [ ] Updated the author and date headers in `code/00_setup.R`
 - [ ] Changed the seed in `code/00_setup.R` to today's date
 - [ ] Filled in `[YEAR]` and the author names in [`LICENSE`](LICENSE)
-- [ ] Deleted `code/functions/example_function.R` once you have written a real function
-- [ ] Filled in the title and author in `reports/summary.qmd`, or deleted it if you will not be writing reports
+- [ ] Filled in the title and author in `reports/full_report.qmd`. Every project has a full report; see [`reports/README.md`](reports/README.md)
+- [ ] Deleted the rows you will not use from the products table in [`products/README.md`](products/README.md)
+- [ ] Renamed `docs/codebook-template.md` to `docs/codebook.md`, and fill in its dataset table as you clean
 - [ ] Deleted any folder you genuinely will not use. Do not delete `data/` or its `.gitignore` protection.
 
 ---
@@ -59,6 +60,7 @@ If it does appear, stop and ask for help before committing anything. Something a
 
 - [ ] Skimmed [`CONVENTIONS.md`](CONVENTIONS.md) — it is short, and it is the difference between a repository someone can pick up in a year and one nobody can
 - [ ] Opened [`docs/decisions.md`](docs/decisions.md) and made your first entry, even if it is just the date you started
+- [ ] If you will use Claude or another AI assistant, read [`docs/working-with-ai.md`](docs/working-with-ai.md). It is short, and it explains why the template asks you to verify work you did not produce
 
 ---
 

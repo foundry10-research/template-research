@@ -52,8 +52,8 @@ print materials that will not be printed in colour.
 From p.17 of the guide, plus what follows from them for this project.
 
 1. **Minimise the number of colours.** If position already encodes the
-   category, do not also encode it with colour. In this project subgroup levels
-   sit on an axis, so they are all one colour.
+   category, do not also encode it with colour. Groups that sit on an axis are
+   all one colour.
 2. **Orange is an accent.** It pulls attention, so it marks the thing the
    reader should notice and nothing else.
 3. **Secondary and unimportant elements go gray, black, or very light.**
@@ -62,21 +62,22 @@ From p.17 of the guide, plus what follows from them for this project.
    related response options ("Very important" and "Important").
 5. **Never repeat a colour in a chart key.**
 6. **Orange means negative or bad; cyan means positive or good.** This applies
-   when values carry a valence. The estimates in this project are descriptive
-   and carry none, so they are cyan by default and the good/bad convention does
-   not apply — orange here means "look at this", not "this is bad".
+   when values carry a valence. Descriptive estimates usually carry none; they
+   are cyan by default, and orange then means "look at this", not "this is
+   bad". Decide which reading a figure uses and keep to it within a report.
 
 ## Accessibility
 
 These are not optional.
 
 7. **Never rely solely on colour** to categorise, emphasise, or prompt. Every
-   colour distinction carries a second cue — shape, weight, or text. In this
-   project the test result is printed as text on every figure, so colour
-   emphasis is always supplementary.
-8. **Suppressed and imprecise estimates are marked by shape, not colour.** A
-   hollow point means the estimate rests on fewer than 30 students. A missing
-   point with its label retained means the cell was suppressed.
+   colour distinction carries a second cue — shape, weight, or text. If a
+   figure highlights a result in orange, print the result as text too, so the
+   colour is supplementary.
+8. **Suppressed and imprecise estimates are marked by shape, not colour.** For
+   example, a hollow point for an estimate based on a small cell, and a
+   missing point with its label kept for a cell that was suppressed. Say what
+   the convention is in the caption.
 9. **Contrast.** Do not set text smaller than 14pt/18px in `#D14E1D` on white —
    use `#CA4A1C` instead. White text on `#D14E1D` needs to be 14pt/18px or
    larger. Check solid backgrounds with a WCAG contrast checker.
@@ -97,13 +98,23 @@ goes past Comms first.
 
 ---
 
-## What this means for a figure in this repository
+## What `theme_foundry10()` gives you
 
-- Estimates are dark cyan points; a Holm-significant comparison turns orange,
-  and the printed p-value says so in text as well.
-- Confidence intervals are drawn as asymmetric bars from the stored bounds,
-  never as a symmetric margin of error — the proportion intervals are logit
-  intervals.
-- The all-students estimate is a gray dashed reference line.
-- Gridlines are very light gray; no panel border, no background fill.
-- Every figure prints its test statistic, raw p, and Holm-corrected p.
+`code/functions/theme_foundry10.R` is loaded by `00_setup.R`. Add
+`theme_foundry10()` to a ggplot and these defaults apply:
+
+- Helvetica Neue (or Arial), text no smaller than 9pt, headings 150% of body.
+- Very light gray gridlines; no panel border, no background fill.
+- No legend. Encode the category by position where you can; if a chart
+  genuinely needs a colour key, use `scale_colour_foundry10()` or
+  `scale_fill_foundry10()`, which stop you if you ask for more colours than
+  the palette has.
+
+Sensible defaults for the marks themselves:
+
+- Estimates are dark cyan (`f10_cyan`). The one comparison the reader should
+  notice is orange (`f10_orange`), with the result also printed as text.
+- Confidence intervals are drawn from the stored lower and upper bounds, not
+  as a symmetric margin around the point. Intervals on proportions are rarely
+  symmetric.
+- A reference value (an overall mean, a benchmark) is a gray dashed line.
