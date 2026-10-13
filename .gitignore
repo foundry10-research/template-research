@@ -196,6 +196,18 @@ output/**
 !output/**/.gitkeep
 
 # -----------------------------------------------------------------------------
+# RESULTS  --  aggregate tables, tracked
+# -----------------------------------------------------------------------------
+# results/ holds the tables the full report reads: one row per model term or
+# per group, never per participant. The *.csv rule above would hide them, so
+# CSV files in results/ are let through. Only CSV: an .rds in results/ stays
+# ignored, because an R object can hold a dataset in a way a CSV cannot hide.
+# See results/README.md.
+
+!results/*.csv
+!results/README.md
+
+# -----------------------------------------------------------------------------
 # REPORTS  --  tracked, because they are written to be read
 # -----------------------------------------------------------------------------
 # reports/ holds rendered summaries meant for collaborators and PIs who do not

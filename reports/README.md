@@ -1,30 +1,33 @@
 # Reports
 
-Rendered summaries of the analysis, written to be **read** rather than run.
+This folder holds the **full report**: the definitive record of the study.
+Every statistic, table, and figure the project produced lives in
+`full_report.qmd`, and every number in it comes from code. The rendered
+version, `full_report.md`, is tracked by Git so that anyone can read it on
+github.com without installing R.
 
-This is the folder for a collaborator, a PI, or a partner who wants to see what
-you found without installing R and executing your pipeline.
-
-Unlike `output/`, **the contents of this folder are tracked by Git.** That is
-the entire point: a report nobody can open without cloning and running code is
-not solving the problem it exists to solve.
+Every foundry10 project has a full report. The manuscript, white paper, brief,
+or preprint are written *from* it, never the other way round; see
+[`../products/README.md`](../products/README.md). What the full report must
+contain is set out in
+[`../docs/reporting-standards.md`](../docs/reporting-standards.md), and
+`/check-report` checks a rendered report against that list.
 
 ---
 
-## The safety rule, stated plainly
+## Two rules, because this folder is tracked
 
-`output/` is untracked because a saved model object silently contains the data
-it was fit on. A report is different — you choose what goes into it — but that
-is a responsibility, not a guarantee.
+**1. Every number comes from code.** No number in the report is typed by
+hand. Write `` `r nrow(dat)` ``, not `228`. Tables come from
+`knitr::kable()` on a table in `results/`, not from numbers copied out of the
+console. If a number you need is not in `results/`, add it to
+`code/02_analyze.R`. A typed number is right on the day you type it and
+silently wrong after the next re-run.
 
-**A rendered report contains whatever your code chunks printed.**
-
-One `head(dat)` left in a chunk while you were debugging puts six rows of
-participant data into a tracked file, permanently, in something that looks like
-a summary document. This is a realistic way to leak data, and it is easy to do
-by accident.
-
-So, before committing a report:
+**2. No chunk prints individual-level data.** A rendered report contains
+whatever your code chunks printed. One `head(dat)` left in while debugging
+puts six rows of participant data into a tracked file, permanently. Before
+committing:
 
 - [ ] No chunk prints raw or individual-level data — no `head()`, no `View()`,
       no `print(dat)`, no `glimpse()` left over from debugging
@@ -32,65 +35,64 @@ So, before committing a report:
 - [ ] Cell sizes are large enough that nobody is identifiable. A cross-tab with
       a single participant in a cell identifies that person to anyone who knows
       the study.
-- [ ] **Read the rendered file itself**, not just the source. What renders is
-      what gets committed, and the two are easy to conflate.
+- [ ] **Read the rendered `.md` itself**, not just the source. What renders is
+      what gets committed.
 
-Setting `echo: false` in the YAML header hides your code but **does not hide
-its output**. It is a formatting choice, not a safety feature.
+`echo: false` in the YAML header hides your code but **does not hide its
+output**. It is a formatting choice, not a safety feature.
+
+---
+
+## Where figures come from
+
+Figures are drawn in the report's own chunks, not saved by a script and
+imported. The reason is practical: when a `gfm` report imports an image from
+`output/figures/`, the rendered file contains a link to that path, and since
+`output/` is not tracked, the figure is broken on GitHub. A figure drawn in a
+chunk is saved by Quarto into `full_report_files/`, which is tracked, and
+displays correctly.
+
+If a product needs a high-resolution PNG, add a `ggsave()` line to the same
+chunk writing to `output/figures/`. One place for the figure code, two
+outputs.
 
 ---
 
 ## Format: use `gfm`
 
-Quarto can render to many formats. For this purpose the choice matters more
-than it looks:
-
 | Format | Renders on github.com? | Notes |
 |---|---|---|
-| **`gfm`** (GitHub markdown) | **Yes, natively** | Best default. Also diffs as plain text, so you can see what changed between versions. |
-| `pdf` | Yes, inline viewer | Good for emailing or attaching to a manuscript. Requires a LaTeX install (`tinytex::install_tinytex()`). |
+| **`gfm`** (GitHub markdown) | **Yes, natively** | The default. Diffs as plain text, so you can see what changed between versions. |
+| `pdf` | Yes, inline viewer | Good for attaching to an email. Requires a LaTeX install (`tinytex::install_tinytex()`). |
 | `html` | **No** | GitHub shows the raw source, not the page. Fine locally, useless to the colleague you are trying to reach. |
-
-Unless you have a reason to do otherwise, render to `gfm`. Someone can then
-click the file on GitHub and simply read it, which is the whole goal.
-
-A `gfm` report writes its figures into a folder next to it — for `summary.qmd`,
-that is `summary_files/`. The `.gitignore` is set up to track those, so images
-display correctly on GitHub. Commit that folder along with the report.
 
 ---
 
-## Suggested contents
+## Contents
 
 ```
 reports/
-├── summary.qmd          Source — the file you edit
-├── summary.md           Rendered — the file people read
-└── summary_files/       Figures for the rendered version
+├── full_report.qmd        Source — the file you edit
+├── full_report.md         Rendered — the file people read
+└── full_report_files/     Figures for the rendered version; commit these
 ```
 
-Common reports worth writing:
-
-- **Analysis summary** — the main findings, for the PI and co-authors
-- **Data quality report** — sample sizes, missingness, attrition by wave.
-  Useful early and often, and it surfaces problems while there is still time
-  to do something about them.
-- **Partner-facing summary** — findings for a school or district, in plain
-  language, with the methodological caveats a research audience would assume
-  but a practitioner audience would not
+Other reports are welcome alongside it. A **data quality report** (sample
+sizes, missingness, attrition by wave) is useful early and often, and a
+**partner-facing summary** in plain language is often what a school or
+district actually wants. They follow the same two rules.
 
 ---
 
 ## Rendering
 
-In RStudio, open the `.qmd` and click **Render**. Or from R:
+`code/run_all.R` renders the full report at the end of the pipeline, so
+running the pipeline is the normal way to update it. To render on its own,
+open the `.qmd` in RStudio and click **Render**, or from R:
 
 ```r
-quarto::quarto_render(here::here("reports", "summary.qmd"))
+quarto::quarto_render(here::here("reports", "full_report.qmd"))
 ```
-
-Reports read from `data/processed/`, so run `code/run_all.R` first if the
-cleaning has changed.
 
 **Re-render before committing.** A report showing numbers from an analysis you
 have since revised is worse than no report at all — it looks current, and
@@ -100,8 +102,8 @@ people will quote it.
 
 ## What does not go here
 
-- **Manuscripts.** Those live in Google Docs or Word; see
-  [`../manuscript/README.md`](../manuscript/README.md).
+- **Manuscripts, white papers, briefs.** Those are written in Google Docs or
+  Word and linked from [`../products/README.md`](../products/README.md).
 - **Raw model output.** Dumping `summary(model)` into a document is not a
-  report. Report the numbers a reader needs, in a table.
+  report. Use `broom::tidy()` and `knitr::kable()`.
 - **Anything with participant-level rows.** See the checklist above.

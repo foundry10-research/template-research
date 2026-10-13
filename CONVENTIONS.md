@@ -41,10 +41,13 @@ See [`docs/faq.md`](docs/faq.md).
 ```
 00_setup.R      Packages, paths, seed. Sourced by everything else.
 01_clean.R      Raw data → analysis-ready data
-02_analyze.R    Models
-03_figures.R    Plots
-run_all.R       Runs everything in order
+02_analyze.R    Models; writes results tables to results/
+run_all.R       Runs everything in order, then renders the full report
 ```
+
+Figures are drawn in `reports/full_report.qmd`, where they are rendered and
+tracked, rather than in a numbered script. See
+[`reports/README.md`](reports/README.md) for why.
 
 The numbers tell a newcomer where to start and in what order to read. Zero-pad them so `10_` sorts after `09_` rather than after `01_`.
 
@@ -60,7 +63,25 @@ Run it periodically rather than only at the end. The longer you wait, the more p
 
 ---
 
-## 4. Raw data is read-only
+## 4. Use a package before writing a function
+
+Before writing your own function, check whether base R, the tidyverse, or a package you already use does the job. Almost always one does: `scale()` for z-scores, `psych::alpha()` for reliability, `broom::tidy()` for model tables, `janitor::clean_names()` for variable names. A function you wrote is one more thing a reader has to understand and one more place for a bug to hide; a function from a package on CRAN has been run by thousands of people.
+
+Write your own only when no package does it and you would otherwise paste the same block three or more times. Keep it short, keep it plain, and give it its own file in `code/functions/`.
+
+The same goes for complexity in general. Start with `lm()`, dplyr verbs, and ggplot2. Add `purrr`, functional programming, or anything clever only when you need it, and say in a comment why you did.
+
+---
+
+## 5. Every number comes from code
+
+No number in a report or a table is typed by hand. If the text says the sample was 228 participants, that number is `` `r nrow(dat)` `` in the source, not `228`. If a table shows a regression coefficient, it is `broom::tidy(model)` passed to `knitr::kable()`, not a number copied from the console.
+
+The reason is the same as for outputs: a hand-typed number is correct on the day you type it and silently wrong after the next re-run. Reviewers find these; so do collaborators, usually in a Google Doc three revisions later. `reports/full_report.qmd` is the record of every statistic the study produced, and `products/README.md` explains how the manuscript, white paper, or brief draws on it.
+
+---
+
+## 6. Raw data is read-only
 
 Never edit anything in `data/raw/`. Every correction, recode, exclusion, and renaming happens in code. Two reasons:
 
@@ -69,7 +90,7 @@ Never edit anything in `data/raw/`. Every correction, recode, exclusion, and ren
 
 ---
 
-## 5. Set a seed
+## 7. Set a seed
 
 Anything random — bootstrapping, multiple imputation, cross-validation splits, simulations, jittered points in a plot — gives different results on each run unless you fix the seed. Without a seed you cannot tell a real change in your results from noise, which makes it impossible to check whether an edit did what you meant it to.
 
@@ -78,7 +99,7 @@ Two options:
 2. Set it once in `00_setup.R`. This is cleaner and less work, but make sure you always refer to the final output when writing up results.
 ---
 
-## 6. Outputs are generated, never hand-edited
+## 8. Outputs are generated, never hand-edited
 
 Figures come out of `ggsave()` (or something similar if you don't like `ggplot`), tables come out of `write_csv()`. Do not export a plot by clicking, and do not open a table in Excel to fix a column header.
 
@@ -86,9 +107,11 @@ The next run of the pipeline silently overwrites anything you changed by hand, w
 
 This is also why `output/` is not tracked by Git — everything in it is regenerable, and saved model objects contain the data they were fit on. See [`output/README.md`](output/README.md).
 
+`results/` is the exception: it holds the aggregate tables the full report reads from (one row per model term or per group, never per participant), and it *is* tracked. See [`results/README.md`](results/README.md).
+
 ---
 
-## 7. Name files so they sort correctly
+## 9. Name files so they sort correctly
 
 - **Lowercase, no spaces.** `survey_wave1.csv`, not `Survey Wave 1.csv`. Spaces break command-line tools and behave differently across operating systems.
 - **`snake_case`** for files, variables, and functions. Pick one style and use it everywhere; the specific choice matters far less than the consistency.
@@ -98,7 +121,7 @@ This is also why `output/` is not tracked by Git — everything in it is regener
 
 ---
 
-## 8. Comment the why, not the what
+## 10. Comment the why, not the what
 
 ```r
 # Bad: restates the code
@@ -115,13 +138,13 @@ Also, give each script a header saying what it takes in, what it puts out, and w
 
 ---
 
-## 9. Log analytic decisions as you make them
+## 11. Log analytic decisions as you make them
 
 `docs/decisions.md` holds substantive choices: exclusion criteria and their justification, deviations from preregistration, why one model specification was chosen over another, how an unexpected data problem was handled. Write the entry right when you make the decision.
 
 ---
 
-## 10. Commit often, in meaningful chunks
+## 12. Commit often, in meaningful chunks
 
 A commit should be one coherent change. "Add attention check exclusion" is a commit. "Work on Tuesday" is three commits wearing a trenchcoat.
 
@@ -141,7 +164,7 @@ Small, frequent commits are easier to understand later and much easier to undo. 
 
 ---
 
-## 11. Never commit secrets
+## 13. Never commit secrets
 
 API keys, passwords, tokens, database connection strings. Put them in `.Renviron` or `.env`, both of which are already ignored, and read them with `Sys.getenv("MY_KEY")`.
 
@@ -149,7 +172,7 @@ A committed key is a leaked key even if you delete it in the very next commit, b
 
 ---
 
-## 12. Notebooks need care in Git
+## 14. Notebooks need care in Git
 
 If you use Jupyter or R Markdown notebooks, know that Git handles them badly. A `.ipynb` file stores its outputs — including images, as enormous blocks of encoded text — alongside your code. Two people running the same notebook produce completely different files, and the resulting merge conflicts are close to unreadable.
 
@@ -161,7 +184,7 @@ Options, in order of preference:
 
 ---
 
-## 13. Record your environment
+## 15. Record your environment
 
 Package versions change, and results occasionally change with them. `02_analyze.R` writes `sessionInfo()` to `docs/session-info.txt`, so that a discrepancy two years from now has a starting point.
 
@@ -177,4 +200,4 @@ skippable for a quick descriptive analysis. See
 
 Following every convention on a two-week descriptive analysis is over-engineering. Skipping all of them on a four-year longitudinal study with five collaborators is how projects become unmaintainable.
 
-If you only ever adopt three, make them: **no absolute paths**, **raw data is read-only**, and **one script that reproduces everything**.
+If you only ever adopt four, make them: **no absolute paths**, **raw data is read-only**, **one script that reproduces everything**, and **every number comes from code**.

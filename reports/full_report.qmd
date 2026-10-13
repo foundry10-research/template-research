@@ -1,0 +1,187 @@
+---
+title: "[PROJECT TITLE]: Full Report"
+author: "[AUTHOR NAMES]"
+date: today
+format:
+  gfm:
+    toc: true
+    fig-width: 7
+    fig-height: 4
+execute:
+  echo: false      # hide code; note this does NOT hide output
+  warning: false
+  message: false
+---
+
+<!--
+This is the record of the study. Every statistic, table, and figure the
+project produced lives here, and every number in it comes from code. The
+manuscript, white paper, brief, or preprint are written from this document,
+never the other way round. See reports/README.md and
+docs/reporting-standards.md.
+
+Two rules, because this file is tracked by Git:
+
+1. No chunk prints individual-level data. No head(dat), no glimpse(dat).
+   `echo: false` hides code, not output.
+2. No number is typed by hand. Write inline R code (backtick, r, the
+   expression, backtick; for example nrow(dat)), not 228. If a number you
+   need is not in results/, add it to code/02_analyze.R.
+
+The section headers below match docs/reporting-standards.md. Keep them, so
+/check-report can find each required element. Replace the bracketed text.
+-->
+
+```{r setup}
+source(here::here("code", "00_setup.R"))
+dat <- readRDS(file.path(path_processed, "analysis_sample.rds"))
+
+# Every table that code/02_analyze.R wrote. The numbers in the text below are
+# pulled from these, so they cannot drift from what the code produced.
+# sample_flow <- read_csv(file.path(path_results, "sample_flow.csv"))
+# model_h1    <- read_csv(file.path(path_results, "model_h1.csv"))
+```
+
+## Summary
+
+[Two or three sentences a busy reader could understand. Lead with what we
+found, not with what we did. Every number here is inline R code, never typed.
+The Sample section below shows the pattern.]
+
+## Study information
+
+| | |
+|---|---|
+| Design | [e.g., two-arm randomized experiment; cross-sectional survey] |
+| Preregistration | [OSF link, or "not preregistered"] |
+| IRB protocol | [number] |
+| Data collection | [dates] |
+| Data location | See [`../data/README.md`](../data/README.md) |
+
+## Sample
+
+```{r}
+#| label: tbl-sample-flow
+#| tbl-cap: "Participants at each stage"
+
+# sample_flow |> knitr::kable()
+```
+
+[We recruited participants from ... The analytic sample is `r nrow(dat)`
+participants. State each exclusion and its reason, with the counts drawn from
+the sample-flow table. Exclusion criteria are logged in
+[`../docs/decisions.md`](../docs/decisions.md).]
+
+```{r}
+#| label: tbl-demographics
+#| tbl-cap: "Sample characteristics"
+
+# Aggregate counts and percentages only. Check that no cell is small enough
+# to identify a participant.
+# dat |>
+#   count(gender) |>
+#   mutate(percent = round(100 * n / sum(n), 1)) |>
+#   knitr::kable()
+```
+
+## Measures
+
+[For each measure: what it is, how many items, response scale, how we scored
+it, and reliability in this sample. Reliability is inline R code reading
+from a results table, not a typed value.]
+
+## Missing data
+
+[How much was missing, on which variables, and what we did about it. Say
+whether missingness differed by condition or by a key covariate.]
+
+## Analysis plan
+
+[Which analyses were preregistered and which were exploratory. The model for
+each hypothesis, in words: outcome, predictors, covariates, estimation.
+Deviations from the preregistration go in their own section below, not here.]
+
+## Results
+
+### Descriptives
+
+```{r}
+#| label: tbl-descriptives
+#| tbl-cap: "Means and standard deviations of study variables"
+
+# read_csv(file.path(path_results, "descriptives.csv")) |>
+#   knitr::kable(digits = 2)
+```
+
+### Primary analyses
+
+```{r}
+#| label: tbl-model-h1
+#| tbl-cap: "H1: [hypothesis in one line]. OLS regression; 95% confidence intervals."
+
+# model_h1 |> knitr::kable(digits = 2)
+```
+
+[State the estimate, its uncertainty, and what it means in plain language,
+with each number as inline R code that reads from the model table, for
+example round(model_h1$estimate[model_h1$term == "conditionb"], 2).
+"Participants in the treatment condition scored X points higher (95% CI
+[L, U]). In other words, ..." A coefficient without an interpretation is not
+a finding.]
+
+```{r}
+#| label: fig-h1
+#| fig-cap: "[What the figure shows, in one line]"
+
+# Figures are drawn here, not imported from output/. Quarto saves this one to
+# reports/full_report_files/, which is tracked, so it displays on GitHub.
+# If a product needs a high-resolution copy, uncomment the ggsave() line.
+#
+# p <- ggplot(dat, aes(x = condition, y = outcome)) +
+#   stat_summary(fun = mean, geom = "col", fill = f10_cyan) +
+#   stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2) +
+#   labs(x = "Condition", y = "Outcome") +
+#   theme_foundry10()
+# p
+# ggsave(file.path(path_figures, "fig1_h1.png"), p, width = 7, height = 4, dpi = 300)
+```
+
+[Describe what the figure shows in words. A reader should get the finding
+from the prose even if they skip the figure.]
+
+### Secondary and exploratory analyses
+
+[Label each one exploratory. Same structure as above: table, then prose.]
+
+### Robustness checks
+
+[What we re-ran with a different specification, sample, or method, and
+whether the conclusion changed.]
+
+## Deviations from preregistration
+
+[Each deviation, what we did instead, and why. "None" if none. Each one
+should also have an entry in `docs/decisions.md`.]
+
+## Limitations
+
+[What this study cannot tell us. Write this section honestly and early. It is
+the part a partner organization most needs and least often gets.]
+
+## Reproducibility
+
+```{r reproducibility}
+# The short hash of the commit this report was rendered from, so a reader can
+# check out exactly the code that produced these numbers.
+commit <- tryCatch(
+  suppressWarnings(system("git rev-parse --short HEAD", intern = TRUE)),
+  error = function(e) character(0)
+)
+if (length(commit) == 0) commit <- "unknown (not a git repository, or no commits yet)"
+
+```
+
+This report was rendered on `r format(Sys.Date(), "%Y-%m-%d")` from commit
+`r commit` by running `code/run_all.R`. Package versions are recorded in
+[`../docs/session-info.txt`](../docs/session-info.txt). Analytic decisions
+are logged in [`../docs/decisions.md`](../docs/decisions.md).
